@@ -225,7 +225,7 @@ function export_copy() {
 }
 
 function importy() {
-    let loadgame = prompt("Paste in your save WARNING: WILL OVERWRITE YOUR CURRENT SAVE")
+    let loadgame = prompt("粘贴存档警告：将覆盖您当前的保存")
         if (loadgame != null) {
             let keep = player
             try {
