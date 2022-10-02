@@ -15,11 +15,16 @@ MAIN.steel = {
         x = x.mul(upgEffect('rocket',5))
         x = x.mul(upgEffect('momentum',6))
 
+        x = x.mul(getASEff('steel'))
+
         return x.floor()
     },
     foundryEff() {
         let max = Decimal.mul(1000,upgEffect('factory',0))
-        let x = max.pow(Math.min(player.sTime/3600,1)).max(1)
+        let p = player.sTime/3600/starTreeEff('speed',0)
+        if (!hasStarTree('speed',8)) p = Math.min(p,1)
+        if (p >= 1) p = Math.log10(p)+1
+        let x = max.pow(p).max(1)
 
         return x
     },
@@ -34,6 +39,8 @@ MAIN.steel = {
 
             x = x.mul(upgEffect('rocket',6))
             x = x.mul(upgEffect('momentum',7))
+
+            x = x.mul(starTreeEff('speed',1)*starTreeEff('speed',2))
 
             if (player.decel) x = x.div(1e24)
 
@@ -169,7 +176,7 @@ MAIN.steel = {
 }
 
 RESET.steel = {
-    unl: _=>player.grasshop>=10,
+    unl: _=>player.grasshop>=10||player.gTimes>0,
 
     req: _=>player.level>=400,
     reqDesc: _=>`Reach Level 400.`,
@@ -206,7 +213,9 @@ UPGS.factory = {
 
     unl: _=>player.sTimes > 0,
 
-    underDesc: _=>`You have ${format(player.steel,0)} Steel`,
+    underDesc: _=>`You have ${format(player.steel,0)} Steel`+(tmp.steelPass>0?" <span class='smallAmt'>"+player.steel.formatGain(tmp.steelGain.mul(tmp.steelPass))+"</span>":""),
+
+    autoUnl: _=>hasStarTree('auto',2),
 
     ctn: [
         {
@@ -339,7 +348,7 @@ UPGS.factory = {
             max: 100,
 
             title: "Oil Drilling Rig",
-            desc: `Unlock a building (on top of Factory) that passively generates oil and AP slowly based off your best Liquefy/Anonymity per level. Each level increases charge rate by <b class="green">+10%</b>.`,
+            desc: `Passively generate oil and AP slowly based off your best Liquefy/Anonymity per level. Each level increases charge rate by <b class="green">+10%</b>.`,
         
             res: "steel",
             icon: ["Icons/OilRigAlt"],
@@ -470,7 +479,7 @@ UPGS.gen = {
         },{
             max: 1000,
 
-            unl: _=>player.grasshop>=14,
+            unl: _=>player.grasshop>=14||player.gTimes>0,
 
             title: "Prestige Charge",
             desc: `Increase charge rate by <b class="green">+10%</b> per level. This effect is increased by <b class="green">25%</b> for every <b class="yellow">25</b> levels.`,
@@ -490,7 +499,7 @@ UPGS.gen = {
         },{
             max: 1000,
 
-            unl: _=>player.grasshop>=14,
+            unl: _=>player.grasshop>=14||player.gTimes>0,
 
             title: "Crystal Charge",
             desc: `Increase charge rate by <b class="green">+10%</b> per level. This effect is increased by <b class="green">25%</b> for every <b class="yellow">25</b> levels.`,
@@ -584,6 +593,7 @@ UPGS.assembler = {
 tmp_update.push(_=>{
     let ms = MAIN.steel
     
+    tmp.steelPass = starTreeEff('speed',7,0)
     tmp.steelGain = ms.gain()
     tmp.foundryEff = ms.foundryEff()
 
@@ -639,4 +649,5 @@ el.update.factory = _=>{
             }
         }
     }
+    if (mapID == "as") tmp.el.refinery_div.setDisplay(hasUpgrade('factory',5))
 }
