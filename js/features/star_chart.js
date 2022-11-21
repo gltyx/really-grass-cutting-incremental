@@ -1,9 +1,9 @@
 const SC_IDS = {
     auto: [
-        [0],
-        [4,1,'',3,9],
+        [4,1,0,3,9],
         ['',2,5],
         [6,7,8],
+        ['','',10,'',11],
     ],
     speed: [
         [0],
@@ -16,7 +16,8 @@ const SC_IDS = {
         [0],
         [1,2,3],
         [4,5,6],
-        [7,8,9],
+        ['',7,8,9,12],
+        ['',10,11],
     ],
 }
 
@@ -128,6 +129,28 @@ const STAR_CHART = {
             icon: ['Curr/Platinum','Icons/StarAuto'],
                             
             cost: i => 10000,
+            bulk: i => 1,
+        },
+        {
+            branch: [6,7,8],
+
+            title: "Rocket Fuel Automation",
+            desc: `Automate Rocket Fuel, it will no longer spend resources.`,
+
+            icon: ['Curr/RocketFuel','Icons/StarAuto'],
+                            
+            cost: i => 1000000,
+            bulk: i => 1,
+        },
+        {
+            branch: [10],
+
+            title: "Momentum Autobuy",
+            desc: `Automate Momentum upgrades, they no longer spend Momentum.`,
+
+            icon: ['Curr/Momentum','Icons/StarAuto'],
+                            
+            cost: i => 1e15,
             bulk: i => 1,
         },
     ],
@@ -673,6 +696,63 @@ const STAR_CHART = {
 
             effect(i) {
                 let x = i/20+1
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },
+        {
+            max: 100,
+            branch: [8],
+
+            title: "Space Power IV",
+            desc: `Increase SP (Space Power) gained by <span class="green">+100%</span> per level.`,
+
+            icon: ['Curr/SP','Icons/StarProgression'],
+                            
+            cost: i => Math.ceil(1e9*2**i),
+            bulk: i => i.div(1e9).max(1).log(2).floor().toNumber()+1,
+
+            effect(i) {
+                let x = i+1
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },
+        {
+            max: 10,
+            branch: [9],
+
+            title: "More Rocket Fuels II",
+            desc: `Increase rocket fuel's cheapness by <span class="green">+5%</span> per level.`,
+
+            icon: ['Curr/RocketFuel','Icons/StarProgression'],
+                            
+            cost: i => Math.ceil(1e12*8**i),
+            bulk: i => i.div(1e12).max(1).log(8).floor().toNumber()+1,
+
+            effect(i) {
+                let x = i/20+1
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },
+        {
+            max: 10,
+            branch: [6],
+
+            title: "Tier to SP Boost",
+            desc: `<span class="green">+0.005</span> to base that boosts SP by Tier per level. (starting base is 1)`,
+
+            icon: ['Icons/TP','Icons/StarProgression'],
+                            
+            cost: i => Math.ceil(1e14*10**i**1.3),
+            bulk: i => i.div(1e14).max(1).log(10).root(1.3).floor().toNumber()+1,
+
+            effect(i) {
+                let x = Decimal.pow(1+i/200,player.tier)
         
                 return x
             },
