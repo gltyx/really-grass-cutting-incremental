@@ -1,26 +1,30 @@
 MAIN.sac = {
     dmGain() {
-        let a = Math.max(1,player.astral-44)
+        let a = Math.max(1,tmp.total_astral-44)
 
         let x = player.stars.div(1e18).max(1).root(2).mul(Decimal.pow(1.1,a-1).mul(a))
 
         tmp.dmGainBase = x
 
-        x = x.mul(upgEffect('np',2))
+        x = x.mul(upgEffect('np',2)).mul(upgEffect('cloud',0))
+
+        x = x.mul(getASEff('dm'))
+
+        if (player.grassjump>=1) x = x.mul(getGJEffect(0))
 
         return x.floor()
     },
 }
 
 RESET.sac = {
-    unl: _=> player.lowGH<=-24,
+    unl: ()=> player.lowGH<=-24,
 
-    req: _=>player.stars.gte(1e18),
-    reqDesc: _=>`Reach ${format(1e18)} stars to unlock.`,
+    req: ()=>player.stars.gte(1e18),
+    reqDesc: ()=>`Reach ${format(1e18)} stars to unlock.`,
 
     resetDesc: `<span style="font-size:14px">Sacrifice forces a Galactic reset as well as resetting Astral, Stars, Fun, Fun Upgrades (excluding ones in The Funny Machine) and SFRGT to earn Dark Matter.<br>
     Gain more Dark Matters based on your stars (starting at 1 Qt) and astral (starting at 45).<br>First sacrifice unlocks new the funny machine upgrade and moonstone upgrade.</span>`,
-    resetGain: _=> `Gain <b>${tmp.dmGain.format(0)}</b> Dark Matters`,
+    resetGain: ()=> `Gain <b>${tmp.dmGain.format(0)}</b> Dark Matters`,
 
     title: `Dark Matter Plant`,
     resetBtn: `Sacrifice`,
@@ -39,8 +43,10 @@ RESET.sac = {
     },
 
     doReset(order="sac") {
-        resetUpgrades('fundry')
-        resetUpgrades('sfrgt')
+        if (!hasStarTree('reserv',14)) {
+            resetUpgrades('fundry')
+            resetUpgrades('sfrgt')
+        }
 
         player.sp = E(0)
         player.astral = 0
@@ -53,14 +59,17 @@ RESET.sac = {
 }
 
 UPGS.dm = {
-    unl: _=> player.lowGH<=-24,
+    unl: ()=> player.lowGH<=-24,
 
     title: "Dark Matter Upgrades",
 
-    req: _=>player.sacTimes > 0,
-    reqDesc: _=>`Sacrifice once to unlock.`,
+    req: ()=>player.sacTimes > 0,
+    reqDesc: ()=>`Sacrifice once to unlock.`,
 
-    underDesc: _=>`You have ${format(player.dm,0)} Dark Matters`,
+    underDesc: ()=>`You have ${format(player.dm,0)} Dark Matters`+gainHTML(player.dm,tmp.dmGain,tmp.dmGen),
+
+    autoUnl: ()=>hasStarTree('reserv',23),
+    noSpend: ()=>hasStarTree('reserv',23),
 
     ctn: [
         {
@@ -215,6 +224,6 @@ UPGS.dm = {
     ]
 }
 
-tmp_update.push(_=>{
+tmp_update.push(()=>{
     tmp.dmGain = MAIN.sac.dmGain()
 })

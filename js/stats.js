@@ -118,6 +118,12 @@ const STATS = {
                 h += `<br>Space Multiplier: <b>${formatMult(x)}</b>`
             }
 
+            if (player.planetoid.firstEnter) {
+                x = Decimal.mul(starTreeEff('ring',2),upgEffect('astro',3)).mul(upgEffect('planet',2))
+
+                h += `<br>Planetoid Multiplier: <b>${formatMult(x)}</b>`
+            }
+
             x = tmp.chargeEff[1]||E(1)
 
             h += `<br>Charge Milestone Multiplier: <b>${formatMult(x)}</b>`
@@ -152,12 +158,12 @@ const STATS = {
             
             // Exponent
 
-            x = E(upgEffect('moonstone',6))
+            x = Decimal.mul(upgEffect('moonstone',6),upgEffect('measure',3))
 
             if (!player.decel && hasUpgrade('plat',10)) x = x.mul(upgEffect('plat',10,1))
 
             if (inChal(3) || inChal(5)) x = x.div(2)
-            if (player.recel) x = x.div(2)
+            if (player.recel) x = x.div(player.lowGH<=-36?4/3:2)
             if (!player.recel) x = x.mul(upgEffect('unGrass',5))
 
             h += `<br><br>Total Exponent: <b>^${format(x)}</b> (if multiplier goes above 1)`
@@ -170,7 +176,7 @@ const STATS = {
         },
     },
     tp: {
-        unl:_=>player.pTimes>0,
+        unl:()=>player.pTimes>0,
         title: "Tier",
         title2: "Tier Points Gain",
         icon: "Icons/TP",
@@ -199,6 +205,12 @@ const STATS = {
                 if (!player.decel) x = x.mul(starTreeEff('progress',6))
 
                 h += `<br>Space Multiplier: <b>${formatMult(x)}</b>`
+            }
+
+            if (player.planetoid.firstEnter) {
+                x = starTreeEff('ring',3)
+
+                h += `<br>Planetoid Multiplier: <b>${formatMult(x)}</b>`
             }
 
             x = tmp.chargeEff[3]||E(1)
@@ -252,7 +264,7 @@ const STATS = {
         },
     },
     sp: {
-        unl:_=>player.gTimes>0,
+        unl:()=>player.gTimes>0,
         title: "Space Power",
         icon: "Icons/SP",
         getDesc() {
@@ -269,13 +281,13 @@ const STATS = {
             h += `<br>Base before multiplier: <b>${format(x,0)}</b>`
 
             if (hasUpgrade('factory',4)) {
-                x = upgEffect('sfrgt',1)
+                x = upgEffect('sfrgt',1).mul(upgEffect('sfrgt',6))
 
                 h += `<br>Anti-Realm Multiplier: <b>${formatMult(x)}</b>`
             }
 
             if (hasUpgrade('funnyMachine',4)) {
-                x = upgEffect('np',1).mul(upgEffect('unGrass',2))
+                x = upgEffect('np',1).mul(upgEffect('unGrass',2)).mul(upgEffect('cloud',1))
 
                 h += `<br>Unnatural Realm Multiplier: <b>${formatMult(x)}</b>`
             }
@@ -287,10 +299,17 @@ const STATS = {
                 h += `<br>Space Multiplier: <b>${formatMult(x)}</b>`
             }
 
+            if (player.planetoid.firstEnter) {
+                x = Decimal.mul(starTreeEff('ring',6),starTreeEff('ring',16)).mul(starTreeEff('ring',23))
+
+                h += `<br>Planetoid Multiplier: <b>${formatMult(x)}</b>`
+            }
+
             x = E(1)
 
             if (player.lowGH <= 4) x = x.mul(10)
             if (player.lowGH <= -8) x = x.mul(getAGHEffect(9,1))
+            if (player.grassjump>=3) x = x.mul(getGJEffect(2))
 
             h += `<br>Milestone Multiplier: <b>${formatMult(x)}</b>`
 
@@ -298,9 +317,10 @@ const STATS = {
             
             // Exponent
 
-            x = E(1)
+            x = E(1).mul(starTreeEff('ring',31))
 
             if (player.lowGH <= -16) x = x.mul(1.25)
+            if (player.grassjump >= 1) x = x.mul(1.25)
 
             h += `<br><br>Total Exponent: <b>^${format(x)}</b> (if multiplier goes above 1)`
 
@@ -308,7 +328,7 @@ const STATS = {
         },
     },
     plat: {
-        unl:_=>player.pTimes>0,
+        unl:()=>player.pTimes>0,
         title: "Platinum",
         icon: "Curr/Platinum",
         getDesc() {
@@ -352,7 +372,7 @@ const STATS = {
         },
     },
     pp: {
-        unl:_=>player.pTimes>0,
+        unl:()=>player.pTimes>0,
         title: "Prestige",
         title2: "Prestige Points Gain",
         icon: "Curr/Prestige",
@@ -391,7 +411,7 @@ const STATS = {
         },
     },
     crystal: {
-        unl:_=>player.cTimes>0,
+        unl:()=>player.cTimes>0,
         title: "Crystallize",
         title2: "Crystal Gain",
         icon: "Curr/Crystal",
@@ -430,7 +450,7 @@ const STATS = {
         },
     },
     steel: {
-        unl:_=>player.sTimes>0,
+        unl:()=>player.sTimes>0,
         title: "Steel",
         icon: "Curr/Steel2",
         getDesc() {
@@ -483,7 +503,7 @@ const STATS = {
         },
     },
     charge: {
-        unl:_=>hasUpgrade('factory',2),
+        unl:()=>hasUpgrade('factory',2),
         title: "Charge",
         title2: "Charge Rate",
         icon: "Curr/Charge",
@@ -553,7 +573,7 @@ const STATS = {
         },
     },
     ap: {
-        unl:_=>player.aTimes>0,
+        unl:()=>player.aTimes>0,
         title: "Anonymity",
         title2: "Anonymity Points Gain",
         icon: "Curr/Anonymity",
@@ -588,7 +608,7 @@ const STATS = {
         },
     },
     oil: {
-        unl:_=>player.lTimes>0,
+        unl:()=>player.lTimes>0,
         title: "Oil",
         icon: "Curr/Oil",
         getDesc() {
@@ -622,7 +642,7 @@ const STATS = {
         },
     },
     star: {
-        unl:_=>player.gTimes>0,
+        unl:()=>player.gTimes>0,
         title: "Stars",
         icon: "Curr/Star",
         getDesc() {
@@ -656,6 +676,12 @@ const STATS = {
                 h += `<br>Space Multiplier: <b>${formatMult(x)}</b>`
             }
 
+            if (player.planetoid.firstEnter) {
+                x = Decimal.mul(starTreeEff('ring',10),starTreeEff('ring',22))
+
+                h += `<br>Planetoid Multiplier: <b>${formatMult(x)}</b>`
+            }
+
             x = E(1)
 
             if (player.lowGH <= 12) x = x.mul(getAGHEffect(4))
@@ -670,7 +696,7 @@ const STATS = {
         },
     },
     moonstone: {
-        unl:_=>player.gTimes>0,
+        unl:()=>player.gTimes>0,
         title: "Moonstone",
         icon: "Curr/Moonstone",
         getDesc() {
@@ -702,7 +728,7 @@ const STATS = {
         },
     },
     fun: {
-        unl:_=>player.fTimes>0,
+        unl:()=>player.fTimes>0,
         title: "Fun",
         icon: "Curr/Fun",
         getDesc() {
@@ -749,7 +775,7 @@ const STATS = {
         },
     },
     sfrgt: {
-        unl:_=>hasUpgrade('funnyMachine',1),
+        unl:()=>hasUpgrade('funnyMachine',1),
         title: "SFRGT",
         icon: "Curr/SuperFun",
         getDesc() {
@@ -760,7 +786,7 @@ const STATS = {
             // Muliplier
 
             if (hasUpgrade('factory',4)) {
-                x = upgEffect('sfrgt',0).mul(upgEffect('funnyMachine',1))
+                x = upgEffect('sfrgt',0).mul(upgEffect('funnyMachine',1)).mul(upgEffect('sfrgt',4))
 
                 h += `<br>Anti-Realm Multiplier: <b>${formatMult(x)}</b>`
             }
@@ -790,7 +816,7 @@ const STATS = {
         },
     },
     dm: {
-        unl:_=>player.sacTimes>0,
+        unl:()=>player.sacTimes>0,
         title: "Dark Matter",
         icon: "Curr/DarkMatter",
         getDesc() {
@@ -803,10 +829,16 @@ const STATS = {
             h += `<br>Base Multiplier: <b>${formatMult(tmp.dmGainBase)}</b>`
 
             if (hasUpgrade('funnyMachine',4)) {
-                x = upgEffect('np',2)
+                x = upgEffect('np',2).mul(upgEffect('cloud',0))
 
                 h += `<br>Unnatural Realm Multiplier: <b>${formatMult(x)}</b>`
             }
+
+            x = E(1)
+
+            if (player.grassjump>=1) x = x.mul(getGJEffect(0))
+
+            h += `<br>Milestone Multiplier: <b>${formatMult(x)}</b>`
             
             // Exponent
 
@@ -816,7 +848,7 @@ const STATS = {
         },
     },
     np: {
-        unl:_=>player.nTimes>0,
+        unl:()=>player.nTimes>0,
         title: "Normality",
         title2: "Normality Points Gain",
         icon: "Curr/Normality",
@@ -829,10 +861,22 @@ const STATS = {
 
             h += `<br>Base Multiplier: <b>${formatMult(tmp.npGainBase)}</b>`
 
+            if (hasUpgrade('factory',4)) {
+                x = upgEffect('sfrgt',5)
+
+                h += `<br>Anti-Realm Multiplier: <b>${formatMult(x)}</b>`
+            }
+
             if (player.gTimes>0) {
                 x = upgEffect('dm',6)
 
                 h += `<br>Space Multiplier: <b>${formatMult(x)}</b>`
+            }
+
+            if (hasUpgrade('funnyMachine',4)) {
+                x = upgEffect('cloud',3)
+
+                h += `<br>Unnatural Realm Multiplier: <b>${formatMult(x)}</b>`
             }
             
             // Exponent
@@ -842,9 +886,285 @@ const STATS = {
             return h
         },
     },
+    cloud: {
+        unl:()=>player.cloudUnl,
+        title: "Cloud",
+        icon: "Curr/Cloud",
+        getDesc() {
+            let x = E(1),h = ''
+
+            h += `Total Cloud gain: <b>+${format(tmp.cloudGain,0)}</b><br>`
+
+            // Muliplier
+
+            h += `<br>Base Multiplier: <b>${formatMult(tmp.cloudGainBase)}</b>`
+            
+            // Exponent
+
+            
+
+            return h
+        },
+    },
+    pm: {
+        unl:()=>player.planetoid.firstEnter,
+        title: "Planetarium",
+        icon: "Curr/Planetoid",
+        getDesc() {
+            let x = E(1),h = ''
+
+            h += `Total Planetarium gain: <b>+${format(tmp.planetiumGain,0)}</b><br>`
+
+            // Muliplier
+
+            if (player.planetoid.firstEnter) {
+                x = E(5)
+        
+                .mul(upgEffect('planetarium',1))
+                .mul(upgEffect('observ',0))
+        
+                .mul(starTreeEff('ring',0))
+                .mul(starTreeEff('ring',4))
+                .mul(starTreeEff('ring',9))
+                .mul(starTreeEff('ring',14))
+                .mul(starTreeEff('ring',19))
+                .mul(starTreeEff('ring',24))
+                .mul(starTreeEff('ring',29))
+        
+                .mul(upgEffect('astro',0))
+                .mul(upgEffect('measure',1))
+
+                .mul(upgEffect('planet',0))
+
+                h += `<br>Planetoid Multiplier: <b>${formatMult(x)}</b>`
+            }
+
+            x = E(1)
+
+            if (player.planetoid.planetTier>0) x = x.mul(getPTEffect(0))
+
+            h += `<br>Milestone Multiplier: <b>${formatMult(x)}</b>`
+            
+            // Exponent
+
+            x = E(1).mul(starTreeEff('reserv',7))
+
+            h += `<br><br>Total Exponent: <b>^${format(x)}</b> (if multiplier goes above 1)`
+
+            return h
+        },
+    },
+    cosmic: {
+        unl:()=>player.planetoid.firstEnter,
+        title: "Cosmic",
+        icon: "Icons/XP2",
+        getDesc() {
+            let x = E(1),h = ''
+
+            h += `Total Cosmic gain: <b>+${format(tmp.cosmicGain,0)}</b><br>`
+
+            // Muliplier
+
+            if (player.planetoid.firstEnter) {
+                x = E(1)
+        
+                .mul(upgEffect('planetarium',2))
+                .mul(upgEffect('observ',2))
+                .mul(upgEffect('observ',5))
+
+                .mul(starTreeEff('ring',1))
+                .mul(starTreeEff('ring',13))
+                .mul(starTreeEff('ring',17))
+                .mul(starTreeEff('ring',21))
+                .mul(starTreeEff('ring',26))
+
+                .mul(starTreeEff('reserv',15))
+
+                h += `<br>Planetoid Multiplier: <b>${formatMult(x)}</b>`
+            }
+
+            x = E(1)
+
+            if (player.planetoid.planetTier>0) x = x.mul(getPTEffect(0))
+
+            h += `<br>Milestone Multiplier: <b>${formatMult(x)}</b>`
+            
+            // Exponent
+
+            x = E(1).mul(starTreeEff('reserv',6))
+
+            h += `<br><br>Total Exponent: <b>^${format(x)}</b> (if multiplier goes above 1)`
+
+            return h
+        },
+    },
+    ring: {
+        unl:()=>player.planetoid.firstEnter,
+        title: "Rings",
+        icon: "Curr/Ring",
+        getDesc() {
+            let x = E(1),h = ''
+
+            h += `Total Rings gain: <b>+${format(tmp.ringGain,0)}</b><br>`
+
+            // Muliplier
+
+            h += `<br>Base Multiplier: <b>${formatMult(tmp.ringGainBase)}</b>`
+
+            if (hasUpgrade('funnyMachine',4)) {
+                x = upgEffect('cloud',2)
+
+                h += `<br>Unnatural Realm Multiplier: <b>${formatMult(x)}</b>`
+            }
+
+            if (player.planetoid.firstEnter) {
+                x = E(5)
+        
+                .mul(upgEffect('observ',1))
+                .mul(upgEffect('observ',6))
+
+                .mul(starTreeEff('reserv',0))
+
+                .mul(upgEffect('astro',1))
+                
+                .mul(upgEffect('measure',2))
+
+                h += `<br>Planetoid Multiplier: <b>${formatMult(x)}</b>`
+            }
+
+            x = E(1).mul(getASEff('ring'))
+
+            if (player.lowGH <= -40) x = x.mul(getAGHEffect(17))
+
+            h += `<br>Milestone Multiplier: <b>${formatMult(x)}</b>`
+            
+            // Exponent
+
+            return h
+        },
+    },
+    observ: {
+        unl:()=>player.planetoid.firstEnter,
+        title: "Observatorium",
+        icon: "Curr/Observatorium",
+        getDesc() {
+            let x = E(1),h = ''
+
+            h += `Total Observatorium gain: <b>+${format(tmp.observGain,0)}</b><br>`
+
+            // Muliplier
+
+            if (player.planetoid.firstEnter) {
+                x = E(1)
+        
+                .mul(starTreeEff('ring',5))
+                .mul(starTreeEff('ring',11))
+                .mul(starTreeEff('ring',15))
+                .mul(starTreeEff('ring',20))
+                .mul(starTreeEff('ring',25))
+                .mul(starTreeEff('ring',30))
+
+                .mul(upgEffect('measure',0))
+                .mul(upgEffect('measure',4))
+
+                .mul(upgEffect('planet',1))
+
+                h += `<br>Planetoid Multiplier: <b>${formatMult(x)}</b>`
+            }
+            
+            // Exponent
+
+            return h
+        },
+    },
+    astro: {
+        unl:()=>player.planetoid.firstEnter,
+        title: "Astro",
+        icon: "Curr/Astrolabe",
+        getDesc() {
+            let x = E(1),h = ''
+
+            h += `Total Astro gain: <b>+${format(tmp.astroGain,0)}</b><br>`
+
+            // Muliplier
+
+            h += `<br>Base Multiplier: <b>${formatMult(tmp.astroGainBase)}</b>`
+
+            if (player.planetoid.firstEnter) {
+                x = E(1)
+        
+                .mul(upgEffect('observ',4))
+                .mul(upgEffect('observ',7))
+                .mul(starTreeEff('ring',18))
+
+                h += `<br>Planetoid Multiplier: <b>${formatMult(x)}</b>`
+            }
+
+            x = E(1)
+
+            if (player.planetoid.planetTier>1) x = x.mul(getPTEffect(1))
+
+            h += `<br>Milestone Multiplier: <b>${formatMult(x)}</b>`
+            
+            // Exponent
+
+            return h
+        },
+    },
+    measure: {
+        unl:()=>player.planetoid.firstEnter,
+        title: "Measure",
+        icon: "Curr/Measure",
+        getDesc() {
+            let x = E(1),h = ''
+
+            h += `Total Measure gain: <b>+${format(tmp.measureGain,0)}</b><br>`
+
+            // Muliplier
+
+            h += `<br>Base Multiplier: <b>${formatMult(tmp.measureGainBase)}</b>`
+
+            if (player.planetoid.firstEnter) {
+                x = E(1)
+        
+                .mul(starTreeEff('ring',27))
+                .mul(upgEffect('observ',8))
+
+                h += `<br>Planetoid Multiplier: <b>${formatMult(x)}</b>`
+            }
+
+            x = E(1)
+
+            if (player.planetoid.planetTier>1) x = x.mul(getPTEffect(1))
+
+            h += `<br>Milestone Multiplier: <b>${formatMult(x)}</b>`
+            
+            // Exponent
+
+            return h
+        },
+    },
+    planet: {
+        unl:()=>player.lowGH<=-48,
+        title: "Planets",
+        icon: "Curr/Planet",
+        getDesc() {
+            let x = E(1),h = ''
+
+            h += `Total Measure gain: <b>+${format(tmp.planetGain,0)}</b><br>`
+
+            // Muliplier
+
+            h += `<br>Base Multiplier: <b>${formatMult(tmp.planetGainBase)}</b>`
+            
+            // Exponent
+
+            return h
+        },
+    },
 }
 
-el.setup.stats = _=>{
+el.setup.stats = ()=>{
     let table = new Element('stats_tab_div')
     let html = ""
 
@@ -862,7 +1182,7 @@ el.setup.stats = _=>{
     table.setHTML(html)
 }
 
-el.update.stats = _=>{
+el.update.stats = ()=>{
     if (mapID == 'stats' && !tmp.space) {
         let st
 

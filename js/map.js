@@ -24,14 +24,14 @@ const MAP = [
 const SPACE_MAP = [
     [null,null,null,null,null,null,null],
     [null,null,null,null,null,null,null],
-    [null,null,null,null,null,null,null],
+    [null,null,null,'ap',null,null,null],
     [null,null,'sac','sc','at',null,null],
     [null,null,null,null,null,null,null],
     [null,null,null,null,null,null,null],
     [null,null,null,null,null,null,null],
 ]
 
-const MAP_IDS = (_=>{
+const MAP_IDS = (()=>{
     let x = []
     for (i in MAP) for (j in MAP[i]) if (MAP[i][j]) x.push(MAP[i][j])
     for (i in SPACE_MAP) for (j in SPACE_MAP[i]) if (SPACE_MAP[i][j]) x.push(SPACE_MAP[i][j])
@@ -52,7 +52,7 @@ function switchMap(dx,dy) {
     }
 }
 
-el.update.map = _=>{
+el.update.map = ()=>{
     for (x in MAP_IDS) {
         let id = MAP_IDS[x]
         let m_div = tmp.el["map_div_"+id]
