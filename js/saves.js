@@ -216,6 +216,12 @@ function getPlayerData() {
 
         planetoid: getPlanetoidSave(),
 
+        lunar: {
+            active: [],
+            level: new Array(LUNAR_OB.length).fill(0),
+            lp: new Array(LUNAR_OB.length).fill(E(0)),
+        },
+
         time: 0,
         version: VER,
     }
@@ -270,6 +276,8 @@ function loadPlayer(load) {
     if (player.version < 0.401) {
         player.bestGS = Math.max(player.bestGS, player.grassskip)
     }
+
+    player.lowGH = Math.max(player.lowGH,-60)
 
     player.version = VER
 }

@@ -47,7 +47,7 @@ const MAIN = {
 
         if (x.lt(1)) return x
 
-        x = x.pow(chalEff(3))
+        x = x.pow(chalEff(3)).pow(getLEffect(0))
         if (!player.recel) x = x.pow(upgEffect('unGrass',5))
         if (inChal(3) || inChal(5)) x = x.root(2)
         if (player.recel) x = x.root(2)
@@ -80,7 +80,11 @@ const MAIN = {
 
         tmp.gsBeforeCompact = 2/x
 
-        return Math.max(x*tmp.compact,2e-4)
+        if (player.grassjump>=2) x /= 10
+
+        x = Math.min(Math.max(x*tmp.compact,2e-4),10)
+
+        return x
     },
     compact() {
         if (!hasUpgrade('unGrass',3)) return 1
@@ -142,8 +146,7 @@ const MAIN = {
         if (player.recel) x = x.pow(player.lowGH<=-36?.75:.5)
 
         if (!player.decel && hasUpgrade('plat',10)) x = x.pow(upgEffect('plat',10,1))
-        x = x.pow(upgEffect('moonstone',6))
-        x = x.pow(upgEffect('measure',3))
+        x = x.pow(upgEffect('moonstone',6)).pow(upgEffect('measure',3)).pow(getLEffect(1))
 
         return x
     },
@@ -191,13 +194,15 @@ const MAIN = {
         if (inChal(5)) x = x.root(2)
         if (player.recel) x = x.root(2)
 
+        x = x.pow(getLEffect(2))
+
         return x
     },
     rangeCut: ()=>50+upgEffect('grass',4,0)+upgEffect('perk',4,0)+upgEffect('planetarium',3,0),
     autoCut: ()=>hasStarTree('reserv',2)?0.01:5-(player.planetoid.active?0:upgEffect('auto',0,0)+upgEffect('plat',0,0)+starTreeEff('progress',3,0)),
     level: {
         req(i) {
-            i = E(i).scale(tmp.level.scale2,2,0).scale(tmp.level.scale1,2,0)
+            i = E(i).scale(1e5,1.00010,1).scale(tmp.level.scale2,2,0).scale(tmp.level.scale1,2,0)
 
             if (inChal(0) || inChal(7)) i = i.mul(3)
             
@@ -212,7 +217,7 @@ const MAIN = {
 
             if (inChal(0) || inChal(7)) x = x.div(3)
 
-            return Math.floor(x.scale(tmp.level.scale1,2,0,true).scale(tmp.level.scale2,2,0,true).toNumber()+1)
+            return Math.floor(x.scale(tmp.level.scale1,2,0,true).scale(tmp.level.scale2,2,0,true).scale(1e5,1.00010,1,true).toNumber()+1)
         },
         cur(i) {
             return i > 0 ? this.req(i-1) : E(0) 
