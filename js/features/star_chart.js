@@ -27,7 +27,10 @@ const SC_IDS = {
         [19,15,16,17,18],
         [24,20,21,22,23],
         [29,25,26,27,28],
-        ['',30,31,32,''],
+        [34,30,31,32,33],
+        [38,35,36,37,40],
+        ['',39,'','',''],
+        [41,42,43,44,45],
     ],
     reserv: [
         [22,7,0,6,15],
@@ -37,8 +40,10 @@ const SC_IDS = {
         [17,18,23,20,29],
         [25,24,27,28,''],
         [33,26,'',30,''],
-        ['',31,'','',''],
+        [35,31,'','',''],
         ['',32,'','',''],
+        ['',34,'','',''],
+        ['',36,'','',''],
     ],
 }
 
@@ -1486,6 +1491,249 @@ const STAR_CHART = {
             },
             effDesc: x => formatMult(x),
         },
+        {
+            max: 100,
+            branch: [29],
+
+            title: "Giga Cosmic",
+            desc: `Increase cosmic gain by <span class="green">+50%</span> compounding per level.`,
+
+            icon: ['Icons/XP2'],
+                            
+            cost: i => Math.ceil(1e46*3**i),
+            bulk: i => i.div(1e46).max(1).log(3).floor().toNumber()+1,
+
+            effect(i) {
+                let x = Decimal.pow(1.5,i)
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },
+
+        {
+            unl: ()=>player.constellation.unl,
+            max: 40,
+            branch: [29],
+
+            title: "Stabilizer I",
+            desc: `Increase stabilizer power by <span class="green">+10%</span> per level.`,
+
+            icon: ['Icons/ConstCooler'],
+                            
+            cost: i => Math.ceil(1e49*1.5**i),
+            bulk: i => i.div(1e49).max(1).log(1.5).floor().toNumber()+1,
+
+            effect(i) {
+                let x = i/10+1
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },{
+            max: 40,
+            branch: [34],
+
+            title: "Reinforcement I",
+            desc: `Increase reinforcement by <span class="green">+10%</span> per level.`,
+
+            icon: ['Icons/ConstellationSquare'],
+                            
+            cost: i => Math.ceil(1e50*1.5**i),
+            bulk: i => i.div(1e50).max(1).log(1.5).floor().toNumber()+1,
+
+            effect(i) {
+                let x = i/10+1
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },{
+            max: 100,
+            branch: [34],
+
+            title: "Advanced Lunar Power",
+            desc: `Increase lunar power gain by <span class="green">+50%</span> per level.`,
+
+            icon: ['Curr/Lunar'],
+                            
+            cost: i => Math.ceil(1e51*1.75**i),
+            bulk: i => i.div(1e51).max(1).log(1.75).floor().toNumber()+1,
+
+            effect(i) {
+                let x = i/2+1
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },{
+            max: 100,
+            branch: [34],
+
+            title: "Line I",
+            desc: `Increase lines gain by <span class="green">+100%</span> per level.`,
+
+            icon: ['Curr/Lines'],
+                            
+            cost: i => Math.ceil(1e57*1.5**i),
+            bulk: i => i.div(1e57).max(1).log(1.5).floor().toNumber()+1,
+
+            effect(i) {
+                let x = i+1
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },{
+            unl: ()=>player.constellation.unl,
+            max: 40,
+            branch: [34],
+
+            title: "Stabilizer II",
+            desc: `Increase stabilizer power by <span class="green">+10%</span> per level.`,
+
+            icon: ['Icons/ConstCooler'],
+                            
+            cost: i => Math.ceil(1e72*2**i),
+            bulk: i => i.div(1e72).max(1).log(2).floor().toNumber()+1,
+
+            effect(i) {
+                let x = i/10+1
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },{
+            max: 40,
+            branch: [35],
+
+            title: "Reinforcement II",
+            desc: `Increase reinforcement by <span class="green">+10%</span> per level.`,
+
+            icon: ['Icons/ConstellationSquare'],
+                            
+            cost: i => Math.ceil(1e73*2**i),
+            bulk: i => i.div(1e73).max(1).log(2).floor().toNumber()+1,
+
+            effect(i) {
+                let x = i/10+1
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },{
+            max: 100,
+            branch: [34],
+
+            unl: ()=>player.grassjump>=16,
+
+            title: "Dark Charge I",
+            desc: `Increase dark charge rate by <span class="green">+100%</span> per level.`,
+
+            icon: ['Curr/DarkCharge'],
+                            
+            cost: i => Math.ceil(1e75*1.5**i),
+            bulk: i => i.div(1e75).max(1).log(1.5).floor().toNumber()+1,
+
+            effect(i) {
+                let x = i+1
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },
+
+        {
+            max: 100,
+            branch: [38],
+
+            title: "Final Stabilizer",
+            desc: `Increase stabilizer power compounding by <span class="green">+5%</span> per level.`,
+
+            icon: ['Icons/ConstCooler'],
+                            
+            cost: i => Decimal.pow(10,i**1.5).mul(1e100),
+            bulk: i => i.div(1e100).max(1).log(10).root(1.5).floor().toNumber()+1,
+
+            effect(i) {
+                let x = Decimal.pow(1.05,i)
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },{
+            max: 100,
+            branch: [39],
+
+            title: "Final Reinforcement",
+            desc: `Increase reinforcement power compounding by <span class="green">+5%</span> per level.`,
+
+            icon: ['Icons/ConstellationSquare'],
+                            
+            cost: i => Decimal.pow(10,i**1.5).mul(1e150),
+            bulk: i => i.div(1e150).max(1).log(10).root(1.5).floor().toNumber()+1,
+
+            effect(i) {
+                let x = Decimal.pow(1.05,i)
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },{
+            max: 100,
+            branch: [36],
+
+            title: "Final Observatorium",
+            desc: `Increase observatorium gain compounding by <span class="green">+25%</span> per level.`,
+
+            icon: ['Curr/Observatorium'],
+                            
+            cost: i => Decimal.pow(10,i**1.35).mul(1e100),
+            bulk: i => i.div(1e100).max(1).log(10).root(1.35).floor().toNumber()+1,
+
+            effect(i) {
+                let x = Decimal.pow(1.25,i)
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },{
+            max: 100,
+            branch: [37],
+
+            title: "Final Line",
+            desc: `Increase line gain compounding by <span class="green">+20%</span> per level.`,
+
+            icon: ['Curr/Lines'],
+                            
+            cost: i => Decimal.pow(10,i**1.5).mul(1e150),
+            bulk: i => i.div(1e150).max(1).log(10).root(1.5).floor().toNumber()+1,
+
+            effect(i) {
+                let x = Decimal.pow(1.2,i)
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },{
+            max: 100,
+            branch: [40],
+
+            title: "Final Dark Charge",
+            desc: `Increase dark charge rate compounding by <span class="green">+100%</span> per level.`,
+
+            icon: ['Curr/DarkCharge'],
+                            
+            cost: i => Decimal.pow(10,i**1.35).mul(1e100),
+            bulk: i => i.div(1e100).max(1).log(10).root(1.35).floor().toNumber()+1,
+
+            effect(i) {
+                let x = Decimal.pow(2,i)
+        
+                return x
+            },
+            effDesc: x => formatMult(x),
+        },
     ],
 
     // Reservatorium
@@ -1713,7 +1961,7 @@ const STAR_CHART = {
         {
             branch: [6],
 
-            max: 5,
+            max: 6,
 
             title: "Astral to Cosmic",
             desc: `<span class="green">+0.05</span> to base that boosts Cosmic by Astral per level. (starting base is 1).`,
@@ -2000,6 +2248,42 @@ const STAR_CHART = {
             icon: ['Curr/Normality','Icons/Automation2'],
             
             cost: i => 5e21,
+            bulk: i => 1,
+        },{
+            branch: [32],
+
+            max: 1,
+
+            title: "Limitless Planetarium Upgrades",
+            desc: `Uncap <span class="green">Planetarium Upgrades</span>' maximum level, except Planetarium Grow Speed & Planetarium Range.`,
+
+            icon: ['Curr/Planetoid','Icons/Automation2'],
+            
+            cost: i => 1e23,
+            bulk: i => 1,
+        },{
+            branch: [33],
+
+            max: 1,
+
+            title: "Limitless Cloud Upgrades",
+            desc: `Uncap <span class="green">Cloud Upgrades</span>' maximum level.`,
+
+            icon: ['Curr/Cloud','Icons/Automation2'],
+            
+            cost: i => 1e24,
+            bulk: i => 1,
+        },{
+            branch: [34],
+
+            max: 1,
+
+            title: "Limitless Astro Upgrades",
+            desc: `Uncap <span class="green">Astro Upgrades</span>' maximum level.`,
+
+            icon: ['Curr/Astrolabe','Icons/Automation2'],
+            
+            cost: i => 1e27,
             bulk: i => 1,
         },
     ],

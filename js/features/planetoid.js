@@ -51,6 +51,8 @@ const PLANETOID = {
         .mul(upgEffect('planet',0))
 
         .mul(getLEffect(6))
+
+        .mul(upgEffect('constellation',0)).mul(upgEffect('constellation',4))
         
         if (player.planetoid.planetTier>=1) x = x.mul(getPTEffect(0))
 
@@ -72,10 +74,11 @@ const PLANETOID = {
         .mul(starTreeEff('ring',17))
         .mul(starTreeEff('ring',21))
         .mul(starTreeEff('ring',26))
+        .mul(starTreeEff('ring',33))
 
         .mul(starTreeEff('reserv',15))
 
-        .mul(getLEffect(3))
+        .mul(getLEffect(3)).mul(tmp.darkChargeEffs.cosmic||1)
 
         if (player.planetoid.planetTier>=1) x = x.mul(getPTEffect(0))
 
@@ -128,6 +131,8 @@ const PLANETOID = {
 
         .mul(upgEffect('cloud',2))
 
+        .mul(cs_effect.ring)
+
         if (player.lowGH <= -40) x = x.mul(getAGHEffect(17))
 
         x = x.mul(getASEff('ring'))
@@ -148,6 +153,8 @@ const PLANETOID = {
         .mul(upgEffect('measure',4))
 
         .mul(upgEffect('planet',1))
+
+        .mul(starTreeEff('ring',43))
 
         if (hasStarTree('reserv',22)) x = x.mul(tmp.compact)
 
@@ -204,6 +211,9 @@ const PLANETOID = {
         },
         tierReq() {
             let p = player.planetoid.planetTier
+
+            if (p >= 30) p = (p/29)**2*29
+
             let x = 200+10*p
 
             return x

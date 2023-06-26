@@ -1,4 +1,4 @@
-var mapID = 'g'
+var mapID = 'g' // 'cs'
 var mapPos = [3,3]
 
 var mapID2 = 'sc'
@@ -14,7 +14,7 @@ window.addEventListener('keydown', e=>{
 const MAP = [
     [null,null,null,null,null,null,null],
     [null,null,null,null,null,null,null],
-    [null,null,'stats','opt',null,'rp',null],
+    [null,null,'stats','opt','cs','rp',null],
     [null,null,'auto','g','pc','gh','fd'],
     [null,null,null,'p','chal','as',null],
     [null,null,null,null,null,null,null],

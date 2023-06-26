@@ -127,6 +127,17 @@ function calc(dt) {
         if (player.lunar.lp[i].gte(tmp.lunar_next[i])) player.lunar.level[i] = Math.max(player.lunar.level[i],getLPLevel(i))
     }
 
+    if (player.constellation.unl) {
+        player.constellation.line = player.constellation.line.add(tmp.lineGain.mul(dt))
+        player.constellation.arc = player.constellation.arc.add(tmp.arcGain.mul(dt))
+
+        player.constellation.arcUnl = player.constellation.arcUnl || player.constellation.arc.gt(0)
+    }
+
+    if (player.grassjump>=16) {
+        player.darkCharge = player.darkCharge.add(tmp.darkChargeRate.mul(dt))
+    }
+
     player.planetoid.bestPm = player.planetoid.bestPm.max(player.planetoid.pm)
     MAIN.checkCutting()
 }

@@ -50,6 +50,8 @@ MAIN.steel = {
 
             x = x.mul(upgEffect('dm',1))
 
+            x = x.mul(tmp.darkChargeEffs.charge||1)
+
             if (player.decel) x = x.div(1e24)
 
             if (player.recel) x = x.div(1e72)
@@ -145,7 +147,7 @@ MAIN.steel = {
 
                     let x = s.root(3)
 
-                    return x.toNumber()
+                    return x
                 },
                 effDesc: x => "Boost PP gain by "+format(x)+"x",
             },{
@@ -157,7 +159,7 @@ MAIN.steel = {
 
                     let x = s.root(3)
 
-                    return x.toNumber()
+                    return x
                 },
                 effDesc: x => "Boost Crystal gain by "+format(x)+"x",
             },{
@@ -170,7 +172,7 @@ MAIN.steel = {
 
                     let x = s.root(4)
 
-                    return x.toNumber()
+                    return x
                 },
                 effDesc: x => "Boost AP gain by "+format(x)+"x",
             },{
@@ -183,7 +185,7 @@ MAIN.steel = {
 
                     let x = s.root(4)
 
-                    return x.toNumber()
+                    return x
                 },
                 effDesc: x => "Boost Oil gain by "+format(x)+"x",
             },{
@@ -196,7 +198,7 @@ MAIN.steel = {
 
                     let x = s.root(4)
 
-                    return x.toNumber()
+                    return x
                 },
                 effDesc: x => "Boost Fun gain by "+format(x)+"x",
             },{
@@ -209,7 +211,7 @@ MAIN.steel = {
 
                     let x = s.root(4)
 
-                    return x.toNumber()
+                    return x
                 },
                 effDesc: x => "Boost SFRGT gain by "+format(x)+"x",
             },
