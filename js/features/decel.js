@@ -17,22 +17,26 @@ RESET.decel = {
         if (player.planetoid.active) return;
         
         if (true) {
-            let aa = player.unRes
+            let aa
 
-            if (player.recel) {
-                aa.level = player.level
-                aa.tier = player.tier
-                aa.xp = player.xp
-                aa.tp = player.tp
-            }
+            if (player.hsj <= 0) {
+                aa = player.unRes
 
-            aa = player.aRes
+                if (player.recel) {
+                    aa.level = player.level
+                    aa.tier = player.tier
+                    aa.xp = player.xp
+                    aa.tp = player.tp
+                }
 
-            if (player.decel) {
-                aa.level = player.level
-                aa.tier = player.tier
-                aa.xp = player.xp
-                aa.tp = player.tp
+                aa = player.aRes
+
+                if (player.decel) {
+                    aa.level = player.level
+                    aa.tier = player.tier
+                    aa.xp = player.xp
+                    aa.tp = player.tp
+                }
             }
 
             player.decel = !player.decel
@@ -40,13 +44,15 @@ RESET.decel = {
 
             updateTemp()
 
-            RESET.steel.reset(true)
+            if (player.hsj <= 0) RESET.steel.reset(true)
 
-            if (player.decel) {
-                player.level = aa.level
-                player.tier = aa.tier
-                player.xp = aa.xp
-                player.tp = aa.tp
+            if (player.hsj <= 0) {
+                if (player.decel) {
+                    player.level = aa.level
+                    player.tier = aa.tier
+                    player.xp = aa.xp
+                    player.tp = aa.tp
+                }
             }
         }
     },

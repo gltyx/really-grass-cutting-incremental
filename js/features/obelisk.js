@@ -36,8 +36,8 @@ RESET.astralPrestige = {
     },
 }
 
-const AP_BONUS = ['Dark Matter','Ring','Lunar Power','Arc','Line']
-const AP_BONUS_BASE = [100,25,5,3,5]
+const AP_BONUS = ['Dark Matter','Ring','Lunar Power','Arc','Line','Stardust','Solar Flare']
+const AP_BONUS_BASE = [100,25,5,3,5,3,3]
 
 const LUNAR_OB = [
     // 0 - multiplier, 1 - exponent
@@ -53,11 +53,13 @@ const LUNAR_OB = [
 const LUNAR_OB_MODE = ['x','^']
 
 tmp_update.push(()=>{
-    let x = Decimal.pow(1.5,Math.log10(player.moonstone)).div(100).mul(starTreeEff('ring',32)).mul(starTreeEff('ring',36)).mul(getAPEff(2))
+    let x = Decimal.pow(1.5,Math.log10(player.moonstone+1)).div(100).mul(starTreeEff('ring',32)).mul(starTreeEff('ring',36)).mul(getAPEff(2))
 
-    .mul(cs_effect.moon)
+    .mul(cs_effect.moon||1)
 
     x = x.mul(tmp.darkChargeEffs.lunar||1)
+
+    x = x.mul(solarUpgEffect(4,2))
 
     tmp.LPgain = x
 
