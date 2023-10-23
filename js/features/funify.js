@@ -1,5 +1,7 @@
 MAIN.fun = {
     gain() {
+        if (hasCentralized(10)) return player.grass.floor();
+
         let l = tmp.minStats.gs+1
         let x = Decimal.pow(1.1,l).mul(l).mul(player.bestOil.div(1e42).max(1).root(3))
 
@@ -20,6 +22,8 @@ MAIN.fun = {
         return x.floor()
     },
     SFRGTgain() {
+        if (hasCentralized(11)) return player.grass.floor();
+
         let x = E(1)
 
         x = x.mul(upgEffect('funnyMachine',1))
@@ -97,7 +101,7 @@ UPGS.funnyMachine = {
             icon: ["Icons/Fundry"],
                         
             cost: i => Decimal.pow(1.2,i).mul(10).ceil(),
-            bulk: i => i.div(10).max(1).log(1.2).floor().toNumber()+1,
+            bulk: i => i.div(10).max(1).log(1.2).floor().add(1),
         
             effect(i) {
                 let x = i/10+1
@@ -115,7 +119,7 @@ UPGS.funnyMachine = {
             icon: ["Curr/SuperFun"],
                         
             cost: i => Decimal.pow(1.2,i).mul(1e6).ceil(),
-            bulk: i => i.div(1e6).max(1).log(1.2).floor().toNumber()+1,
+            bulk: i => i.div(1e6).max(1).log(1.2).floor().add(1),
         
             effect(i) {
                 let x = i/10+1
@@ -133,7 +137,7 @@ UPGS.funnyMachine = {
             icon: ["Icons/Charger"],
                         
             cost: i => Decimal.pow(1.2,i).mul(1e11).ceil(),
-            bulk: i => i.div(1e11).max(1).log(1.2).floor().toNumber()+1,
+            bulk: i => i.div(1e11).max(1).log(1.2).floor().add(1),
         
             effect(i) {
                 let x = i/10+1
@@ -151,7 +155,7 @@ UPGS.funnyMachine = {
             icon: ["Icons/Assemblerv2"],
                         
             cost: i => Decimal.pow(1.2,i).mul(1e14).ceil(),
-            bulk: i => i.div(1e14).max(1).log(1.2).floor().toNumber()+1,
+            bulk: i => i.div(1e14).max(1).log(1.2).floor().add(1),
         
             effect(i) {
                 let x = i/10+1
@@ -171,7 +175,7 @@ UPGS.funnyMachine = {
             icon: ["Icons/Recelerator Badge"],
                         
             cost: i => Decimal.pow(1.2,i).mul(1e42).ceil(),
-            bulk: i => i.div(1e42).max(1).log(1.2).floor().toNumber()+1,
+            bulk: i => i.div(1e42).max(1).log(1.2).floor().add(1),
         
             effect(i) {
                 let x = i/10+1
@@ -220,7 +224,7 @@ UPGS.fundry = {
             icon: ["Curr/Fun"],
                         
             cost: i => Decimal.pow(1.25,i).mul(1e2).ceil(),
-            bulk: i => i.div(1e2).max(1).log(1.25).floor().toNumber()+1,
+            bulk: i => i.div(1e2).max(1).log(1.25).floor().add(1),
         
             effect(i) {
                 let x = Decimal.pow(1.1,Math.floor(i/25)).mul(i/10+1)
@@ -238,7 +242,7 @@ UPGS.fundry = {
             icon: ["Curr/Fun"],
                         
             cost: i => Decimal.pow(1.25,i).mul(10).ceil(),
-            bulk: i => i.div(10).max(1).log(1.25).floor().toNumber()+1,
+            bulk: i => i.div(10).max(1).log(1.25).floor().add(1),
         
             effect(i) {
                 let x = Decimal.pow(1.1,Math.floor(i/25)).mul(i/10+1)
@@ -256,7 +260,7 @@ UPGS.fundry = {
             icon: ["Curr/Fun"],
                         
             cost: i => Decimal.pow(1.25,i).mul(100).ceil(),
-            bulk: i => i.div(100).max(1).log(1.25).floor().toNumber()+1,
+            bulk: i => i.div(100).max(1).log(1.25).floor().add(1),
         
             effect(i) {
                 let x = Decimal.pow(1.1,Math.floor(i/25)).mul(i/10+1)
@@ -289,7 +293,7 @@ UPGS.sfrgt = {
             icon: ["Curr/SuperFun"],
                         
             cost: i => Decimal.pow(10,i).mul(1e5).ceil(),
-            bulk: i => i.div(1e5).max(1).log(10).floor().toNumber()+1,
+            bulk: i => i.div(1e5).max(1).log(10).floor().add(1),
         
             effect(i) {
                 let x = Decimal.pow(2,i)
@@ -307,7 +311,7 @@ UPGS.sfrgt = {
             icon: ["Icons/SP"],
                         
             cost: i => Decimal.pow(1.25,i).mul(50).ceil(),
-            bulk: i => i.div(50).max(1).log(1.25).floor().toNumber()+1,
+            bulk: i => i.div(50).max(1).log(1.25).floor().add(1),
         
             effect(i) {
                 let x = Decimal.pow(1.25,Math.floor(i/25)).mul(i/10+1)
@@ -325,7 +329,7 @@ UPGS.sfrgt = {
             icon: ["Curr/Star"],
                         
             cost: i => Decimal.pow(1.4,i).mul(100).ceil(),
-            bulk: i => i.div(100).max(1).log(1.4).floor().toNumber()+1,
+            bulk: i => i.div(100).max(1).log(1.4).floor().add(1),
         
             effect(i) {
                 let x = Decimal.pow(1.25,Math.floor(i/25)).mul(i/10+1)
@@ -343,7 +347,7 @@ UPGS.sfrgt = {
             icon: ["Curr/Charge"],
                         
             cost: i => Decimal.pow(5,i).mul(1e4).ceil(),
-            bulk: i => i.div(1e4).max(1).log(5).floor().toNumber()+1,
+            bulk: i => i.div(1e4).max(1).log(5).floor().add(1),
         
             effect(i) {
                 let x = i
@@ -363,7 +367,7 @@ UPGS.sfrgt = {
             icon: ["Curr/SuperFun"],
                         
             cost: i => Decimal.pow(10,i).mul(1e54).ceil(),
-            bulk: i => i.div(1e54).max(1).log(10).floor().toNumber()+1,
+            bulk: i => i.div(1e54).max(1).log(10).floor().add(1),
         
             effect(i) {
                 let x = Decimal.pow(2,i)
@@ -383,7 +387,7 @@ UPGS.sfrgt = {
             icon: ["Curr/Normality"],
                         
             cost: i => Decimal.pow(1.15,i).mul(1e63).ceil(),
-            bulk: i => i.div(1e63).max(1).log(1.15).floor().toNumber()+1,
+            bulk: i => i.div(1e63).max(1).log(1.15).floor().add(1),
         
             effect(i) {
                 let x = Decimal.pow(1.01,i)
@@ -403,7 +407,7 @@ UPGS.sfrgt = {
             icon: ["Icons/SP"],
                         
             cost: i => Decimal.pow(1.15,i).mul(1e63).ceil(),
-            bulk: i => i.div(1e63).max(1).log(1.15).floor().toNumber()+1,
+            bulk: i => i.div(1e63).max(1).log(1.15).floor().add(1),
         
             effect(i) {
                 let x = Decimal.pow(1.01,i)

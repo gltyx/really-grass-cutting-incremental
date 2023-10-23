@@ -39,9 +39,9 @@ const SPACE_MAP = [
 const STAR_MAP = [
     [null,null,null,null,null,null,null],
     [null,null,null,null,null,null,null],
-    [null,null,null,'cs',null,null,null],
-    [null,null,null,'star','sm',null,null],
-    [null,null,null,null,null,null,null],
+    [null,null,'sol','cs',null,null,null],
+    [null,'adv','stage','star','sm',null,null],
+    [null,null,'solc',null,null,null,null],
     [null,null,null,null,null,null,null],
     [null,null,null,null,null,null,null],
 ]
@@ -73,6 +73,10 @@ const MAP_NAMES = {
 
     'star': `Star`,
     'sm': `Supernova Milestone`,
+    'stage': "Solarian Stage",
+    'sol': "Collecting/Forming",
+    'solc': "Sol Compression",
+    'adv': "Advanced Star",
 }
 
 const MAP_UNLOCKS = {
@@ -91,6 +95,11 @@ const MAP_UNLOCKS = {
     'sac': () => player.lowGH <= -24,
 
     // Star
+
+    'stage': () => tmp.solarianUnl,
+    'sol': () => tmp.solarianUnl,
+    'solc': () => hasSolarUpgrade(7,3),
+    'adv': () => player.sol.bestStage.gte(20),
 }
 
 const MAP_IDS = (()=>{

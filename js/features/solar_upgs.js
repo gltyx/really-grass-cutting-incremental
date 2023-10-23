@@ -164,6 +164,27 @@ const SOLAR_UPGS = [
                 },
                 effDesc: x => format(x,0),
                 onBuy() { player.grassjump = Math.max(player.grassjump, solarUpgEffect(0,10,0)) },
+            },{
+                title: "Observatory Automation",
+                desc: `Automate the observatory upgrades.`,
+                icon: ['Curr/Observatorium'],
+                cost: i => 1e6,
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+            },{
+                title: "Constellation Automation",
+                desc: `Automate lines & arcs upgrades.`,
+                icon: ['Curr/Lines'],
+                cost: i => 1e6,
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+            },{
+                title: "The Star Automation",
+                desc: `Automate the star upgrades.`,
+                icon: ['Curr/StarGrow'],
+                cost: i => 1e9,
+                require() { return player.sn.tier.gte(5) },
+                req_txt: `T5`,
             },
         ],
     },{
@@ -186,10 +207,11 @@ const SOLAR_UPGS = [
                 },
                 effDesc: x => formatMult(x),
             },{
+                unl: ()=>!hasCentralized(0),
                 max: 100,
                 title: "Solar Powered Prestige",
                 get desc() {return `Increase prestige points gain by <b class="green">${formatMult(1e100)}</b> per squared level.`},
-                icon: ['Curr/Prestige'],                 
+                icon: ['Curr/Prestige'],
                 cost: i => Decimal.pow(3,i),
                 bulk: i => i.log(3).floor().toNumber()+1,
                 effect(i) {
@@ -199,6 +221,7 @@ const SOLAR_UPGS = [
                 },
                 effDesc: x => formatMult(x),
             },{
+                unl: ()=>!hasCentralized(1),
                 max: 100,
                 title: "Solar Powered Crystals",
                 get desc() {return `Increase crystals gain by <b class="green">${formatMult(1e100)}</b> per squared level.`},
@@ -212,6 +235,7 @@ const SOLAR_UPGS = [
                 },
                 effDesc: x => formatMult(x),
             },{
+                unl: ()=>!hasCentralized(2),
                 max: 100,
                 title: "Solar Powered Steel",
                 get desc() {return `Increase steel gain by <b class="green">${formatMult(1e10)}</b> per squared level.`},
@@ -238,6 +262,7 @@ const SOLAR_UPGS = [
                 },
                 effDesc: x => formatMult(x),
             },{
+                unl: ()=>!hasCentralized(6),
                 max: 100,
                 title: "Solar Powered",
                 get desc() {return `Increase charge rate by <b class="green">${formatMult(1e10)}</b> per squared level.`},
@@ -253,6 +278,7 @@ const SOLAR_UPGS = [
                 },
                 effDesc: x => formatMult(x),
             },{
+                unl: ()=>!hasCentralized(4),
                 max: 100,
                 title: "Solar Powered Anonymity",
                 get desc() {return `Increase anonymity points gain by <b class="green">${formatMult(1e100)}</b> per squared level.`},
@@ -268,6 +294,7 @@ const SOLAR_UPGS = [
                 },
                 effDesc: x => formatMult(x),
             },{
+                unl: ()=>!hasCentralized(5),
                 max: 100,
                 title: "Solar Powered Oil",
                 get desc() {return `Increase oil gain by <b class="green">${formatMult(1e100)}</b> per squared level.`},
@@ -283,6 +310,7 @@ const SOLAR_UPGS = [
                 },
                 effDesc: x => formatMult(x),
             },{
+                unl: ()=>!hasCentralized(10),
                 max: 100,
                 title: "Solar Powered Fun",
                 get desc() {return `Increase fun gain by <b class="green">${formatMult(1e10)}</b> per squared level.`},
@@ -357,6 +385,113 @@ const SOLAR_UPGS = [
                     return x
                 },
                 effDesc: x => formatMult(x),
+            },{
+                unl: ()=>!hasCentralized(9),
+                max: 100,
+                title: "Solar Powered Stars",
+                get desc() {return `Increase stars gain by <b class="green">${formatMult(1e100)}</b> per squared level.`},
+                icon: ['Curr/Star'],
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                cost: i => Decimal.pow(5,i).mul(10000),
+                bulk: i => i.div(10000).log(5).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(1e100,i**2)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                unl: ()=>!hasCentralized(12),
+                max: 100,
+                title: "Solar Powered Dark Matter",
+                get desc() {return `Increase dark matter gain by <b class="green">${formatMult(1e100)}</b> per squared level.`},
+                icon: ['Curr/DarkMatter'],
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                cost: i => Decimal.pow(5,i).mul(10000),
+                bulk: i => i.div(10000).log(5).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(1e100,i**2)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Solar Powered Planetarium",
+                get desc() {return `Increase planetarium gain by <b class="green">${formatMult(1e10)}</b> per squared level.`},
+                icon: ['Curr/Planetoid'],
+                require() { return player.sn.tier.gte(5) },
+                req_txt: `T5`,
+                cost: i => Decimal.pow(6,i).mul(1e8),
+                bulk: i => i.div(1e8).log(6).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(1e10,i**2)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Solar Powered Astro",
+                get desc() {return `Increase astro gain by <b class="green">${formatMult(1e10)}</b> per squared level.`},
+                icon: ['Curr/Astrolabe'],
+                require() { return player.sn.tier.gte(5) },
+                req_txt: `T5`,
+                cost: i => Decimal.pow(6,i).mul(1e8),
+                bulk: i => i.div(1e8).log(6).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(1e10,i**2)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Solar Powered Measure",
+                get desc() {return `Increase measure gain by <b class="green">${formatMult(1e10)}</b> per squared level.`},
+                icon: ['Curr/Measure'],
+                require() { return player.sn.tier.gte(5) },
+                req_txt: `T5`,
+                cost: i => Decimal.pow(6,i).mul(1e8),
+                bulk: i => i.div(1e8).log(6).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(1e10,i**2)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Solar Powered Planet",
+                get desc() {return `Increase planets gain by <b class="green">${formatMult(1e10)}</b> per squared level.`},
+                icon: ['Curr/Planet'],
+                require() { return player.sn.tier.gte(5) },
+                req_txt: `T5`,
+                cost: i => Decimal.pow(6,i).mul(1e8),
+                bulk: i => i.div(1e8).log(6).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(1e10,i**2)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Solar Powered Lunar Power",
+                get desc() {return `Increase lunar power gain by <b class="green">${formatMult(1e100)}</b> per squared level.`},
+                icon: ['Curr/Lunar'],
+                require() { return player.sol.bestStage.gte(100) },
+                req_txt: `Stage 100`,
+                cost: i => Decimal.pow(10,i).mul(1e150),
+                bulk: i => i.div(1e150).log(10).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(1e100,i**2)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
             },
         ],
     },{
@@ -391,6 +526,8 @@ const SOLAR_UPGS = [
                 },
                 effDesc: x => formatMult(x)+x.softcapHTML(1e300),
             },{
+                require() { return player.sn.tier.gte(2) },
+                req_txt: `T2`,
                 title: "Constant RF",
                 desc: `Rocket fuel generation is permanently enabled and based on oil/charge generated per second, it requires oil drilling rig. The base of rocket fuel's requirement no longer increased by rocket parts, however, rocket part's requirement is changed.`,
                 icon: ['Curr/RocketFuel'],
@@ -409,6 +546,96 @@ const SOLAR_UPGS = [
                 desc: `Lunar powers will level up without needing to be active.`,
                 icon: ['Curr/Lunar'],
                 cost: i => 100,
+            },{
+                require() { return player.sn.tier.gte(4) && hasSolarUpgrade(2,3) },
+                req_txt: `T4 & Prism`,
+                title: "Last Prism",
+                desc: `Unlock final prism constellation, but remove all non-persistent constellations. Unlock a new constellation upgrade.`,
+                icon: ['Icons/PrismUpgrade'],
+                cost: i => 1e6,
+                onBuy() {
+                    for (let y = 0; y < 7; y++) for (let x = 0; x < 7; x++) {
+                        let g = player.constellation.grid[y][x], t = parseInt(g.split('t')[0])
+                        if (g != '' && t <= 13) player.constellation.grid[y][x] = ''
+                    }
+                },
+            },{
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                title: "Constellation Grid",
+                desc: `Unlock Constellation Grid constellation. "A nice grid full of magnifiers and moons for you."`,
+                icon: ['Icons/GridUpgrade'],
+                cost: i => 1e6,
+            },{
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                title: "Ray",
+                desc: `Unlock Ray constellation. "Increases solar rays earned."`,
+                icon: ['Icons/RayUpgrade'],
+                cost: i => 1e6,
+            },{
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                title: "Star",
+                desc: `Unlock Star constellation. "Globally boosts persistent constellations a small amount."`,
+                icon: ['Icons/StarUpgrade'],
+                cost: i => 1e6,
+            },{
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                title: "Improver",
+                desc: `Unlock Improver constellation. "Slightly boosts adjacent persistent constellations."`,
+                icon: ['Icons/UpgraderUpgrade'],
+                cost: i => 1e6,
+            },{
+                require() { return player.sol.bestStage.gte(3) },
+                req_txt: `Stage 3`,
+                title: "Solar Ray Generation",
+                desc: `Passively generate 1% of solar rays earned on supernova per second.`,
+                icon: ['Icons/SR'],
+                cost: i => 1e12,
+            },{
+                require() { return player.sol.bestStage.gte(5) },
+                req_txt: `Stage 5`,
+                title: "Solar Shards Updater",
+                desc: `Automatically update best solar shards on supernova.`,
+                icon: ['Curr/SolarShard'],
+                cost: i => 1e13,
+            },{
+                require() { return player.sol.bestStage.gte(8) },
+                req_txt: `Stage 8`,
+                title: "Solar Flares Generator Generation",
+                desc: `Passively increase solar flare generation based on your current star tier.`,
+                icon: ['Curr/SolarFlare'],
+                cost: i => 1e14,
+            },{
+                require() { return player.sol.bestStage.gte(12) },
+                req_txt: `Stage 12`,
+                title: "Powerful Constellation",
+                desc: `Star constellations are <b class="green">thrice</b> as more powerful.`,
+                icon: ['Icons/StarUpgrade'],
+                cost: i => 1e18,
+            },{
+                require() { return player.sol.bestStage.gte(16) },
+                req_txt: `Stage 16`,
+                title: "Remnant Keeper I",
+                desc: `Keep first six Remnant Upgrades on reset.`,
+                icon: ['Curr/Remnant'],
+                cost: i => 1e21,
+            },{
+                title: "No Grid Effect Cap",
+                desc: `Grid's Effect no longer has cap.`,
+                icon: ['Icons/GridUpgrade','Icons/Infinite'],
+                cost: i => 1e75,
+                require() { return player.sol.bestStage.gte(75) },
+                req_txt: `Stage 75`,
+            },{
+                require() { return player.sol.bestStage.gte(100) },
+                req_txt: `Stage 100`,
+                title: "Remnant Keeper II",
+                desc: `Keep 7-8th Remnant Upgrades on reset.`,
+                icon: ['Curr/Remnant'],
+                cost: i => 1e121,
             },
         ],
     },{
@@ -560,6 +787,21 @@ const SOLAR_UPGS = [
                     return x
                 },
                 effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Solar Rays Filler",
+                desc: `Increase solar rays gain by <b class="green">+5%</b> per level.`,
+                icon: ['Icons/SR'],
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                costOnce: true,
+                cost: i => 1e5,
+                effect(i) {
+                    let x = 1+i/20
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
             },
         ],
     },{
@@ -706,7 +948,7 @@ const SOLAR_UPGS = [
                         
                     return x
                 },
-                effDesc: x => "^"+format(x,3),
+                effDesc: x => formatPow(x,3),
             },{
                 max: 1000,
                 title: "Solar TP",
@@ -721,7 +963,7 @@ const SOLAR_UPGS = [
                         
                     return x
                 },
-                effDesc: x => "^"+format(x,3),
+                effDesc: x => formatPow(x,3),
             },{
                 max: 1000,
                 title: "Solar SP",
@@ -736,7 +978,7 @@ const SOLAR_UPGS = [
                         
                     return x
                 },
-                effDesc: x => "^"+format(x,3),
+                effDesc: x => formatPow(x,3),
             },{
                 max: 1000,
                 title: "Solar Cosmic",
@@ -751,7 +993,7 @@ const SOLAR_UPGS = [
                         
                     return x
                 },
-                effDesc: x => "^"+format(x,3),
+                effDesc: x => formatPow(x,3),
             },{
                 max: 100,
                 title: "Solar Rays",
@@ -763,6 +1005,96 @@ const SOLAR_UPGS = [
                 cost: i => 1e5,
                 effect(i) {
                     let x = i/100+1
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 100,
+                title: "Solar XP II",
+                desc: `Increase the exponent of XP by <b class="green">+1%</b> per level.`,
+                icon: ['Icons/XP','Icons/Exponent'],
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                cost: i => Decimal.pow(1.25,i).mul(1e8),
+                bulk: i => i.div(1e8).log(1.25).floor().toNumber()+1,
+                effect(i) {
+                    let x = i/1e2+1
+                        
+                    return x
+                },
+                effDesc: x => formatPow(x,2),
+            },{
+                max: 100,
+                title: "Solar TP II",
+                desc: `Increase the exponent of TP by <b class="green">+1%</b> per level.`,
+                icon: ['Icons/TP','Icons/Exponent'],
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                cost: i => Decimal.pow(1.25,i).mul(1e8),
+                bulk: i => i.div(1e8).log(1.25).floor().toNumber()+1,
+                effect(i) {
+                    let x = i/1e2+1
+                        
+                    return x
+                },
+                effDesc: x => formatPow(x,2),
+            },{
+                max: 100,
+                title: "Solar SP II",
+                desc: `Increase the exponent of SP by <b class="green">+1%</b> per level.`,
+                icon: ['Icons/SP','Icons/Exponent'],
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                cost: i => Decimal.pow(1.25,i).mul(1e8),
+                bulk: i => i.div(1e8).log(1.25).floor().toNumber()+1,
+                effect(i) {
+                    let x = i/1e2+1
+                        
+                    return x
+                },
+                effDesc: x => formatPow(x,2),
+            },{
+                max: 100,
+                title: "Solar Cosmic II",
+                desc: `Increase the exponent of Cosmic by <b class="green">+1%</b> per level.`,
+                icon: ['Icons/XP2','Icons/Exponent'],
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                cost: i => Decimal.pow(1.25,i).mul(1e8),
+                bulk: i => i.div(1e8).log(1.25).floor().toNumber()+1,
+                effect(i) {
+                    let x = i/1e2+1
+                        
+                    return x
+                },
+                effDesc: x => formatPow(x,2),
+            },{
+                max: 1000,
+                title: "Solar Rays II",
+                desc: `Increase solar rays gain by <b class="green">+1%</b> per level.`,
+                icon: ['Icons/SR'],
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                costOnce: true,
+                cost: i => 1e9,
+                effect(i) {
+                    let x = i/100+1
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 100,
+                title: "Solar Star Growth",
+                desc: `Increase star grow speed by <b class="green">+20%</b> compounding per level.`,
+                icon: ['Curr/StarGrow'],
+                require() { return player.sn.tier.gte(4) },
+                req_txt: `T4`,
+                cost: i => Decimal.pow(1.2,i).mul(1e8),
+                bulk: i => i.div(1e8).log(1.2).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(1.2,i)
                         
                     return x
                 },
@@ -817,6 +1149,593 @@ const SOLAR_UPGS = [
                     return x
                 },
                 effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Offense Remnants",
+                desc: `Increase fighting offense by <b class="green">+10%</b> per level.`,
+                icon: ['Icons/Sword'],
+                unl: () => hasSolarUpgrade(7,1),
+                costOnce: true,
+                cost: i => 10,
+                effect(i) {
+                    let x = 1+i/10
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Collection Remnants",
+                desc: `Increase collection speed by <b class="green">+10%</b> per level.`,
+                icon: ['Icons/Collect'],
+                unl: () => hasSolarUpgrade(7,1),
+                costOnce: true,
+                cost: i => 10,
+                effect(i) {
+                    let x = 1+i/10
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Forming Remnants",
+                desc: `Increase forming speed by <b class="green">+10%</b> per level.`,
+                icon: ['Icons/Form'],
+                unl: () => hasSolarUpgrade(7,1),
+                costOnce: true,
+                cost: i => 10,
+                effect(i) {
+                    let x = 1+i/10
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Divine Soul Remnants",
+                desc: `Increase divine soul gained by <b class="green">+10%</b> per level.`,
+                icon: ['Curr/DivineSoul'],
+                unl: () => player.sn.tier.gte(8),
+                cost: i => Decimal.pow(1.2,i).mul(1e4).ceil(),
+                bulk: i => i.div(1e4).log(1.2).floor().toNumber()+1,
+                effect(i) {
+                    let x = 1+i/10
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Restoration Remnants",
+                desc: `Increase restoring speed by <b class="green">+10%</b> compounding per level.`,
+                icon: ['Icons/Placeholder'],
+                unl: () => player.sn.tier.gte(8),
+                cost: i => Decimal.pow(1.2,i).mul(1e4).ceil(),
+                bulk: i => i.div(1e4).log(1.2).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(1.1,i)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },
+        ],
+    },{
+        title: "Sun Upgrades",
+        tab: ['Curr/Sunstone','yellow'],
+        res: "sunstone",
+
+        require() { return player.sn.tier.gte(4) },
+        req_txt: `T4`,
+
+        ctn: [
+            {
+                max: 100,
+                title: "Sunstone Solar Flares",
+                desc: `Increase solar flares generated by <b class="green">+50%</b> per level.`,
+                icon: ['Curr/SolarFlare'],
+                cost: i => Decimal.pow(1.1,i).mul(10).ceil(),
+                bulk: i => i.div(10).log(1.1).floor().toNumber()+1,
+                effect(i) {
+                    let x = 1+i/2
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 100,
+                title: "Sunstone Star Growth",
+                desc: `Increase star grow speed by <b class="green">+20%</b> compounding per level.`,
+                icon: ['Curr/StarGrow'],
+                cost: i => Decimal.pow(1.5,i).mul(20).ceil(),
+                bulk: i => i.div(20).log(1.5).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(1.2,i)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 10,
+                title: "Sunstone Remnants",
+                desc: `Increase remnants gain by <b class="green">+100%</b> per level.`,
+                icon: ['Curr/Remnant'],
+                cost: i => Decimal.pow(20,i).mul(100).ceil(),
+                bulk: i => i.div(100).log(20).floor().toNumber()+1,
+                effect(i) {
+                    let x = i+1
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x,0),
+                onBuy: updateRemnant,
+            },{
+                max: 10,
+                title: "Ray Cap",
+                desc: `Increases rays cap by <b class="green">+1</b> per level.`,
+                icon: ['Icons/RayUpgrade'],
+                require() { return player.sn.tier.gte(5) },
+                req_txt: `T5`,
+                cost: i => Decimal.pow(1.5,i).mul(50).ceil(),
+                bulk: i => i.div(50).log(1.5).floor().toNumber()+1,
+                effect(i) {
+                    let x = i
+                        
+                    return x
+                },
+                effDesc: x => "+"+format(x,0),
+            },{
+                max: 10,
+                title: "Improver Cap",
+                desc: `Increases improver cap by <b class="green">+1</b> per level.`,
+                icon: ['Icons/UpgraderUpgrade'],
+                require() { return player.sn.tier.gte(5) },
+                req_txt: `T5`,
+                cost: i => Decimal.pow(1.5,i).mul(75).ceil(),
+                bulk: i => i.div(75).log(1.5).floor().toNumber()+1,
+                effect(i) {
+                    let x = i
+                        
+                    return x
+                },
+                effDesc: x => "+"+format(x,0),
+            },{
+                max: 100,
+                title: "Sunstone Offense",
+                desc: `Increase fighting offense by <b class="green">+10%</b> per level.`,
+                icon: ['Icons/Sword'],
+                require() { return player.sol.bestStage.gte(5) },
+                req_txt: `Stage 5`,
+                cost: i => Decimal.pow(1.2,i).mul(1e4).ceil(),
+                bulk: i => i.div(1e4).log(1.2).floor().toNumber()+1,
+                effect(i) {
+                    let x = i/10+1
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 100,
+                title: "Sunstone Solar Shards",
+                desc: `Increase solar shards earned by <b class="green">+10%</b> per level.`,
+                icon: ['Curr/SolarShard'],
+                require() { return player.sol.bestStage.gte(10) },
+                req_txt: `Stage 10`,
+                cost: i => Decimal.pow(1.2,i).mul(1e9).ceil(),
+                bulk: i => i.div(1e9).log(1.2).floor().toNumber()+1,
+                effect(i) {
+                    let x = i/10+1
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 16,
+                title: "Faster Solar Idler",
+                desc: `Speed The Solar Idler's trigger time by <b class="green">x2</b> per level.`,
+                icon: ['Curr/SolarShard','Icons/Automation'],
+                require() { return player.sol.bestStage.gte(15) },
+                req_txt: `Stage 15`,
+                cost: i => Decimal.pow(1.5,i).mul(1e10).ceil(),
+                bulk: i => i.div(1e10).log(1.5).floor().toNumber()+1,
+                effect(i) {
+                    let x = 2**i
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x,0),
+            },{
+                unl: ()=>player.sn.tier.gte(8),
+                max: 1000,
+    
+                title: "Solar Final Prism Upgrade",
+                desc: `Increase Final Prism's tier again.`,
+
+                icon: ['Icons/PrismUpgrade',"Icons/StarSpeed"],
+                    
+                cost: i => Decimal.pow(1.5,i**1.1).mul(1e45).ceil(),
+                bulk: i => i.div(1e45).max(1).log(1.5).root(1.1).floor().add(1),
+    
+                effect(i) {
+                    let x = i
+    
+                    return x
+                },
+                effDesc: x => "+"+format(x,0),
+            },
+        ],
+    },{
+        title: "Singularity Upgrades",
+        tab: ['Curr/Singularity','darkmagenta'],
+        res: "singularity",
+
+        require() { return player.sn.tier.gte(5) },
+        req_txt: `T5`,
+
+        ctn: [
+            {
+                title: "Solarian",
+                desc: `Unlock the <b class="green">Solarians</b> (on left of solar upgrades).`,
+                icon: ['Curr/Solarian'],
+                cost: i => 1,
+            },{
+                unl: () => hasSolarUpgrade(7,0),
+                title: "Remnants",
+                desc: `Double remnants earned and unlock more remnant upgrades.`,
+                icon: ['Curr/Remnant'],
+                cost: i => 1,
+                onBuy: updateRemnant,
+            },{
+                unl: () => hasSolarUpgrade(7,0),
+                title: "Soul Stealer",
+                desc: `<b class="green">Double</b> soul dropped.`,
+                icon: ['Curr/Soul'],
+                cost: i => 1,
+            },{
+                unl: () => hasSolarUpgrade(7,1) && hasSolarUpgrade(7,2),
+                title: "Sol Compression",
+                desc: `Unlock the <b class="green">Sol Compression</b> (on bottom of solarian stage).`,
+                icon: ['Curr/SolCurrency1a'],
+                cost: i => 1,
+            },{
+                unl: () => hasSolarUpgrade(7,3),
+                title: "Forming Being Collector",
+                desc: `Collector speed boosts Forming speed slightly.`,
+                icon: ['Icons/Form'],
+                cost: i => 1,
+                effect(i) {
+                    let x = tmp.sol.collectingMult?.root(3) ?? E(1)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                unl: () => hasSolarUpgrade(7,3),
+                title: "Reduced Enemy I",
+                desc: `Reduce Enemy's health scaling by <b class="green">20%</b>.`,
+                icon: ['Curr/EvilSolarian'],
+                cost: i => 1,
+            },{
+                unl: () => hasSolarUpgrade(7,4) && hasSolarUpgrade(7,5),
+                title: "Further Soul",
+                desc: `Unlock two more Soul upgrades.`,
+                icon: ['Curr/Soul'],
+                cost: i => 1,
+            },{
+                unl: () => hasSolarUpgrade(7,6),
+                title: "Restoration Being Forming",
+                desc: `Forming speed boosts Restoring speed very slightly, starting at 1e50.`,
+                icon: ['Icons/Placeholder'],
+                cost: i => 1,
+                effect(i) {
+                    let x = tmp.sol.formingMult ?? E(1)
+                        
+                    return expMult(x.div(1e50).max(1),0.5)
+                },
+                effDesc: x => formatMult(x),
+            },{
+                unl: () => hasSolarUpgrade(7,6),
+                title: "No Softcap Compression I",
+                desc: `The effects of Compression T1-2 no longer have first softcap.`,
+                icon: ['Curr/SolCurrency1a','Icons/Infinite'],
+                cost: i => 1,
+            },{
+                unl: () => hasSolarUpgrade(7,7) && hasSolarUpgrade(7,8),
+                title: "Soul Absorber",
+                desc: `Passively generate souls based on the current stages reward at <b class="green">1%</b> rate.`,
+                icon: ['Curr/Soul'],
+                cost: i => 1,
+            },{
+                unl: () => hasSolarUpgrade(7,9),
+                title: "Auto Compression",
+                desc: `Automatically level compression equal to <b class="green">1%</b> of your current compressed sol (of that tier) per second.`,
+                icon: ['Curr/SolCurrency1a','Icons/Automation2'],
+                cost: i => 1,
+            },{
+                unl: () => hasSolarUpgrade(7,9),
+                title: "Better Remnant",
+                desc: `Increase remnants earned by <b class="green">+5%</b> compounding per square-rooted current eclipse, starting at 1,000.`,
+                icon: ['Curr/Remnant'],
+                cost: i => 1,
+                effect(i) {
+                    let x = Decimal.pow(1.05,player.sn.eclipse.sub(1000).max(0).root(2))
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },
+        ],
+    },{
+        title: "Soul Upgrades",
+        tab: ['Curr/Soul','cyan'],
+        res: "soul",
+
+        require() { return player.sol.bestStage.gte(1) },
+        req_txt: `Stage 1`,
+
+        ctn: [
+            {
+                max: 1000,
+                title: "Collector I",
+                desc: `Increase collection speed by <b class="green">+50%</b> per level.`,
+                icon: ['Icons/Collect'],
+                costOnce: true,
+                cost: i => 1,
+                effect(i) {
+                    let x = 1+i/2
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Forming I",
+                desc: `Increase forming speed by <b class="green">+50%</b> per level.`,
+                icon: ['Icons/Form'],
+                costOnce: true,
+                cost: i => 1,
+                effect(i) {
+                    let x = 1+i/2
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 5,
+                title: "Sol",
+                desc: `Sol's multiplier is <b class="green">doubled</b> every level.`,
+                icon: ['Curr/SolCurrency1'],
+                cost: i => Decimal.pow(4,i).mul(10).ceil(),
+                bulk: i => i.div(10).log(4).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(2,i)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x,0),
+            },{
+                max: 4,
+                title: "Light Log",
+                desc: `Light Log's multiplier is <b class="green">doubled</b> every level.`,
+                icon: ['Curr/SolCurrency2'],
+                require() { return player.sol.bestStage.gte(3) },
+                req_txt: `Stage 3`,
+                cost: i => Decimal.pow(6,i).mul(100).ceil(),
+                bulk: i => i.div(100).log(6).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(2,i)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x,0),
+            },{
+                max: 3,
+                title: "Portal Stone",
+                desc: `Portal Stone's multiplier is <b class="green">doubled</b> every level.`,
+                icon: ['Curr/SolCurrency3'],
+                require() { return player.sol.bestStage.gte(10) },
+                req_txt: `Stage 8`,
+                cost: i => Decimal.pow(8,i).mul(1000).ceil(),
+                bulk: i => i.div(1000).log(8).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(2,i)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x,0),
+            },{
+                max: 1000,
+                title: "Forming II",
+                desc: `Increase forming speed by <b class="green">+100%</b> per level.`,
+                icon: ['Icons/Form'],
+                costOnce: true,
+                cost: i => 1e4,
+                effect(i) {
+                    let x = 1+i
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 3,
+                title: "Fragment",
+                desc: `Fragment's multiplier is <b class="green">doubled</b> every level.`,
+                icon: ['Curr/SolCurrency4'],
+                require() { return player.sol.bestStage.gte(20) },
+                req_txt: `Stage 20`,
+                cost: i => Decimal.pow(10,i).mul(1e8).ceil(),
+                bulk: i => i.div(1e8).log(10).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(2,i)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x,0),
+            },{
+                unl: () => hasSolarUpgrade(7,6),
+                max: 1000,
+                title: "Collector II",
+                desc: `Increase collection speed by <b class="green">+20%</b> compounding per level.`,
+                icon: ['Icons/Collect'],
+                cost: i => Decimal.pow(1.5,i**1.1).mul(1e25).ceil(),
+                bulk: i => i.div(1e25).log(1.5).root(1.1).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(1.2,i)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                unl: () => hasSolarUpgrade(7,6),
+                max: 1000,
+                title: "Forming III",
+                desc: `Increase forming speed by <b class="green">+20%</b> compounding per level.`,
+                icon: ['Icons/Form'],
+                cost: i => Decimal.pow(1.5,i**1.1).mul(1e25).ceil(),
+                bulk: i => i.div(1e25).log(1.5).root(1.1).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(1.2,i)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },
+        ],
+    },{
+        title: "Divine Soul Upgrades",
+        tab: ['Curr/DivineSoul','lightblue'],
+        res: "divineSoul",
+
+        require() { return player.sn.sunsetTimes>0 },
+        req_txt: `First Sunset`,
+
+        ctn: [
+            {
+                max: 1000,
+                title: "Souls I",
+                desc: `Increase soul dropped by <b class="green">+10%</b> per level.`,
+                icon: ['Curr/Soul'],
+                costOnce: true,
+                cost: i => 1,
+                effect(i) {
+                    let x = 1+i/10
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Offense I",
+                desc: `Increase offense multiplier by <b class="green">+100%</b> per level.`,
+                icon: ['Icons/Sword'],
+                costOnce: true,
+                cost: i => 1,
+                effect(i) {
+                    let x = 1+i
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Compression I",
+                desc: `Increase compression speed by <b class="green">+100%</b> per level.`,
+                icon: ['Curr/SolCurrency1a'],
+                costOnce: true,
+                cost: i => 1,
+                effect(i) {
+                    let x = 1+i
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Mana Generation I",
+                desc: `Increase mana generated by <b class="green">+10%</b> per level.`,
+                icon: ['Curr/Mana'],
+                costOnce: true,
+                cost: i => 1,
+                effect(i) {
+                    let x = 1+i/10
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 1000,
+                title: "Restore I",
+                desc: `Increase restore speed by <b class="green">+10%</b> per level.`,
+                icon: ['Icons/Placeholder'],
+                costOnce: true,
+                cost: i => 1,
+                effect(i) {
+                    let x = 1+i/10
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x),
+            },{
+                max: 5,
+                title: "Grass Essence I",
+                desc: `Grass Essence's multiplier is <b class="green">doubled</b> every level.`,
+                icon: ['Curr/GrassEssence'],
+                require() { return player.sol.bestStage.gte(50) },
+                req_txt: `Stage 50`,
+                cost: i => Decimal.pow(10,i).mul(100).ceil(),
+                bulk: i => i.div(100).log(10).floor().toNumber()+1,
+                effect(i) {
+                    let x = Decimal.pow(2,i)
+                        
+                    return x
+                },
+                effDesc: x => formatMult(x,0),
+            },{
+                max: 6,
+                title: "Keep Rank",
+                desc: `Only lose up to ranks on sunrise.`,
+                icon: ['Curr/Sunstone'],
+                require() { return player.sol.bestStage.gte(60) },
+                req_txt: `Stage 60`,
+                cost: i => Decimal.pow(25,i).mul(1e3).ceil(),
+                bulk: i => i.div(1e3).log(25).floor().toNumber()+1,
+                effect(i) {
+                    let x = i == 0 ? Infinity : 12 - 2 * i
+                        
+                    return x
+                },
+                effDesc: x => "-"+format(x,0),
+            },{
+                max: 10,
+                title: "Offense Exponent",
+                desc: `Increase fighting offense by <b class="green">+^0.05</b> per level.`,
+                icon: ['Icons/Sword','Icons/Exponent'],
+                require() { return player.sol.bestStage.gte(75) },
+                req_txt: `Stage 75`,
+                cost: i => Decimal.pow(100,i).mul(1e5).ceil(),
+                bulk: i => i.div(1e5).log(100).floor().toNumber()+1,
+                effect(i) {
+                    let x = i/20+1
+                        
+                    return x
+                },
+                effDesc: x => formatPow(x),
+            },{
+                max: 10,
+                title: "Solar Ray Exponent",
+                desc: `Increase fighting offense by <b class="green">+^0.1</b> per level.`,
+                icon: ['Icons/SR','Icons/Exponent'],
+                require() { return player.sol.bestStage.gte(100) },
+                req_txt: `Stage 100`,
+                cost: i => Decimal.pow(10,i).mul(1e9).ceil(),
+                bulk: i => i.div(1e9).log(10).floor().toNumber()+1,
+                effect(i) {
+                    let x = i/10+1
+                        
+                    return x
+                },
+                effDesc: x => formatPow(x),
             },
         ],
     },
@@ -852,7 +1771,7 @@ const SU_RES = {
         get amount() { return player.sn.solarShard },
         set amount(v) { player.sn.solarShard = v },
 
-        get html() { return `Solar Shards: ${this.amount.format(0)}`+(hasSolarUpgrade(4,4) ? `<br>(+${player.sn.bestSSEarn.format(0)} in ${formatTime(86400-player.sn.triggerTime,0)})` : "") },
+        get html() { return `Solar Shards: ${this.amount.format(0)}`+(hasSolarUpgrade(4,4) ? `<br>(+${player.sn.bestSSEarn.format(0)} in ${formatTime((86400-player.sn.triggerTime)/solarUpgEffect(6,7),0)})` : "") },
     },
     sf: {
         name: "Solar Flare",
@@ -874,7 +1793,53 @@ const SU_RES = {
         get amount() { return player.sn.remnant },
         set amount(v) { player.sn.remnant = v },
 
-        get html() { return `Remnants: ${this.amount.format(0)}<br>Eclipse ${player.sn.eclipse.format(0)} | Solar Rays: ${player.sn.sr.sub(SUPERNOVA.eclipse.req(1)).max(0).format(0)} / ${SUPERNOVA.eclipse.require.format(0)}` },
+        get html() { return `
+        Remnants: ${this.amount.format(0) + (player.sn.tier.gte(8) ? " " + this.amount.formatGain(player.sn.totalRemnant.div(100)) : "")}
+        <br>Eclipse ${player.sn.eclipse.format(0)} | Solar Rays: ${player.sn.sr.sub(SUPERNOVA.eclipse.req(1)).max(0).format(0)} / ${SUPERNOVA.eclipse.reqBase.format(0)}` },
+    },
+    sunstone: {
+        name: "Sunstone",
+
+        base: "Bases/SolarBase",
+        icon: "Curr/Sunstone",
+
+        get amount() { return player.sn.sunstone },
+        set amount(v) { player.sn.sunstone = v },
+
+        get html() { return `Sunstone: ${this.amount.format(0)}` },
+    },
+    singularity: {
+        name: "Singularity",
+
+        base: "Bases/CentralizeBase",
+        icon: "Curr/Singularity",
+
+        get amount() { return E(player.singularity) },
+        set amount(v) { player.singularity = v.round().toNumber() },
+
+        get html() { return `Singularity: ${this.amount.format(0)}` },
+    },
+    soul: {
+        name: "Soul",
+
+        base: "Bases/CentralizeBase",
+        icon: "Curr/Soul",
+
+        get amount() { return player.sol.soul.round() },
+        set amount(v) { player.sol.soul = v },
+
+        get html() { return `Souls: ${this.amount.format(0)}` },
+    },
+    divineSoul: {
+        name: "Divine Soul",
+
+        base: "Bases/CentralizeBase",
+        icon: "Curr/DivineSoul",
+
+        get amount() { return player.sol.divineSoul.round() },
+        set amount(v) { player.sol.divineSoul = v },
+
+        get html() { return `Divine Souls: ${this.amount.format(0)}` },
     },
 }
 
@@ -994,6 +1959,12 @@ el.update.solar_upgs = () => {
                 const u = t.ctn[x]
                 const id = `solar_upg_${i}_${x}`
 
+                const unl = !u.unl || u.unl()
+
+                tmp.el[id].setDisplay(unl)
+
+                if (!unl) continue;
+
                 const req = !u.require || u.require()
 
                 tmp.el[id].setClasses({solar_upg_ctn: true, locked: !req, choosed: solar_upg[0] == i && solar_upg[1] == x})
@@ -1017,7 +1988,7 @@ function buySolarUpgrade(id,x) {
 
     if ((amt[x]??0) >= u.max) return
 
-    let cost = u.cost(amt[x])
+    let cost = u.cost(amt[x]??0)
 
     if (Decimal.gte(res.amount,cost)) {
         res.amount = res.amount.sub(cost).max(0)
@@ -1040,7 +2011,7 @@ function buyNextSolarUpgrade(id,x) {
 		let bulk = u.max > 1 ? u.costOnce ? Math.min(Math.floor(res.amount / cost), 25 - amt2 % 25) : Math.min(u.bulk(res.amount), Math.ceil((amt2 + 1) / 25) * 25) : 1
 
 		if (bulk > (u.costOnce ? 0 : amt2)) {
-            console.log(bulk)
+            //console.log(bulk)
 
 			amt[x] = Math.min(u.costOnce ? bulk + amt2 : Math.max(amt2,bulk),u.max)
 
@@ -1083,6 +2054,16 @@ function updateSolarUpgradesTemp(id) {
         const u = su.ctn[i]
         if (u.effect) tmp.solar_upgs_effect[id][i] = u.effect(player.sn.solarUpgs[id][i] ?? 0)
     }
+}
+
+function resetSolarUpgrades(id,keep_list=[],reset_list=false) {
+    const u = player.sn.solarUpgs[id], su = SOLAR_UPGS[id]
+    for (let i = 0; i < su.ctn.length; i++) {
+        let include = !keep_list.includes(i)
+        if (reset_list) include = !include
+        if (include) u[i] = 0
+    }
+    updateSolarUpgradesTemp(id)
 }
 
 tmp_update.push(()=>{

@@ -1,5 +1,7 @@
 MAIN.gal = {
     gain() {
+        if (hasCentralized(9)) return player.grass.floor();
+
         let y = 10
 
         if (tmp.minStats.gs>0) y += getGSEffect(0,0)
@@ -24,6 +26,7 @@ MAIN.gal = {
         if (player.sn.tier.gte(1)) x = x.mul(100)
 
         x = x.mul(solarUpgEffect(3,3))
+        .mul(solarUpgEffect(1,13))
 
         return x.floor()
     },
@@ -127,7 +130,7 @@ const ASTRAL = {
         x.pp = a/100
         x.crystal = a/25
         x.plat = a+1
-        x.steel = 1.1**a*a+1
+        x.steel = Decimal.pow(1.1,a).mul(a).add(1)
 
         if (player.astralPrestige>0) x.dm = getAPEff(0)
         if (player.astralPrestige>1) x.ring = getAPEff(1)
@@ -311,7 +314,7 @@ UPGS.moonstone = {
 
                 return x
             },
-            effDesc: x => "^"+format(x),
+            effDesc: x => formatPow(x),
         },{
             max: 10,
 
@@ -333,7 +336,7 @@ UPGS.moonstone = {
 
                 return x
             },
-            effDesc: x => "^"+format(x),
+            effDesc: x => formatPow(x),
         },
     ],
 }

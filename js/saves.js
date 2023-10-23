@@ -1,6 +1,6 @@
 function E(x){return new Decimal(x)};
 
-const VER = 0.05
+const VER = 0.0501
 const EINF = Decimal.dInf
 const BETA = false
 const save_name = BETA ? "rgci_beta_save" : "gci_save"
@@ -224,6 +224,11 @@ function getPlayerData() {
             lp: new Array(LUNAR_OB.length).fill(E(0)),
         },
 
+        centralized: [],
+        singularity: 0,
+
+        sol: getSolarianSave(),
+
         darkCharge: E(0),
 
         stardust: E(0),
@@ -354,6 +359,10 @@ function checkVersion() {
         player.offline.current = Date.now();
         player.offline.time = 0;
     }
+
+    if (player.version < 0.0501) {
+        player.sn.totalRemnant = player.sn.eclipse
+    }
  
     player.lowGH = Math.max(player.lowGH,-60)
 
@@ -388,7 +397,7 @@ function deepUndefinedAndDecimal(obj, data) {
 }
 
 function convertStringToDecimal() {
-    
+    for (let x in UPGS) player.upgs[x] = player.upgs[x].map(a => E(a))
 }
 
 function cannotSave() { return !is_online }
@@ -497,6 +506,7 @@ function loadGame(start=true, gotNaN=false) {
             checkConstellationCosts()
             updateConstellation()
         },1000)
+        setupSolarianStage()
 
         tmp.el.offline_box.setDisplay(false) 
         tmp.el.map.setDisplay(false) 
